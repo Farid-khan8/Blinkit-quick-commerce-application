@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+    mongodb:
+        image: mongo:7
+        container_name: mongodb
+        ports:
+            - "27017:27017"
+
+    user-service:
+        build: ./user-service
+        ports:
+            - "8001:8000"
+        env_file:
+            - ./user-service/.env
+        depends_on:
+            - mongodb
+
+    product-service:
+        build: ./product-service
+        ports:
+            - "8002:8000"
+        env_file:
+            - ./product-service/.env
+        depends_on:
+            - mongodb
+
+    cart-order-service:
+        build: ./cart-order-service
+        ports:
+            - "8003:8000"
+        env_file:
+            - ./cart-order-service/.env
+        depends_on:
+            - mongodb
+
+    delivery-service:
+        build: ./delivery-service
+        ports:
+            - "8004:8000"
+        env_file:
+            - ./delivery-service/.env
+        depends_on:
+            - mongodb

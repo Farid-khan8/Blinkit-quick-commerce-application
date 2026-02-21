@@ -1,0 +1,24 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.env
+
+# Flutter
+.build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+pubspec.lock
+ios/Pods/
+android/.gradle/
+
+# MacOS
+.DS_Store
+
+# Docker
+*.log
+
+# VSCode
+.vscode/
