@@ -1,104 +1,119 @@
-:::writing{variant=“standard” id=“84219”}
-
-🛒 B2C Quick Commerce Application (Blinkit-Like)
-
-📌 Overview
+# 🛒 B2C Quick Commerce Application (Blinkit-Like)
 
 This project is a minimal B2C Quick Commerce Application inspired by Blinkit, developed as part of an intern assignment to demonstrate understanding of:
-• Microservices architecture
-• Backend API development using FastAPI
-• Flutter mobile application integration
-• Docker containerization
-• Kubernetes orchestration
-• End-to-end service communication
+
+- Microservices architecture
+- Backend API development using FastAPI
+- Flutter mobile application integration
+- Docker containerization
+- Kubernetes orchestration
+- End-to-end service communication
+
+## 📌 Overview
 
 The application allows users to browse products, add items to cart, place orders, and track delivery status.
 
-🏗️ Architecture
+- Register & Login (JWT Authentication)
+- Browse products
+- View product details
+- Add items to cart
+- Place orders
+- Track delivery status
+
+## 🏗️ Architecture
 
 The system follows a Microservices Architecture consisting of four independent backend services and one Flutter frontend.
 
-Flutter App
-│
-▼
-User Service ── Authentication (JWT)
-Product Service ── Product Catalog
-Cart & Order Service ── Cart + Order Management
-Delivery Service ── Order Tracking
-│
-▼
-MongoDB (separate collections per service)
+```bash
+    Flutter App
+    │
+    ▼
+    User Service ── Authentication (JWT)
+    Product Service ── Product Catalog
+    Cart & Order Service ── Cart + Order Management
+    Delivery Service ── Order Tracking
+    │
+    ▼
+    MongoDB (separate collections per service)
+```
 
 Each microservice:
-• Runs independently
-• Has its own Dockerfile
-• Uses MongoDB collections
-• Communicates via REST APIs
 
-🧰 Tech Stack
+- Runs independently
+- Has its own Dockerfile
+- Uses MongoDB collections
+- Communicates via REST APIs
 
-Backend
-• Python
-• FastAPI
-• MongoDB (Motor Async Driver)
-• JWT Authentication
-• REST APIs (JSON)
+## 🧰 Tech Stack
 
-Frontend
-• Flutter (Dart)
+### Backend
 
-DevOps
-• Docker
-• Kubernetes (Local cluster)
-• kubectl
-• Docker Desktop
+- Python
+- FastAPI
+- MongoDB (Motor Async Driver)
+- JWT Authentication
+- REST APIs (JSON)
 
-🧩 Microservices
+### Frontend
 
-⸻
+- Flutter (Dart)
 
-1️⃣ User Service (Port 8001)
+### DevOps
 
-Responsibilities
-• User registration
-• Login authentication
-• JWT token generation
-• Profile retrieval
+- Docker
+- Kubernetes (Local cluster)
+- kubectl
+- Docker Desktop
 
-APIs
+## 🔧 Microservices
+
+### 1️⃣ User Service (Port 8001)
+
+\*\* Responsibilities \*\*
+
+- User registration
+- Login authentication
+- JWT token generation
+- Profile retrieval
+
+\*\* APIs \*\*
 • POST /register
 • POST /login
 • GET /profile
 
-Stored Data
-• User ID
-• Name
-• Email
-• Hashed Password
-• Created Timestamp
+\*\* Stored Data \*\*
+
+- User ID
+- Name
+- Email
+- Hashed Password
+- Created Timestamp
 
 Authentication uses JWT tokens.
 
-2️⃣ Product Catalog Service (Port 8002)
+### 2️⃣ Product Catalog Service (Port 8002)
 
-Responsibilities
-• Provide product listings and categories.
+\*\* Responsibilities \*\*
 
-APIs
+- Provide product listings
+- Category management
+
+\*\* APIs \*\*
 • GET /products
 • GET /products/{product_id}
 • GET /categories
 
 Products are pre-seeded in MongoDB.
 
-3️⃣ Cart & Order Service (Port 8003)
+### 3️⃣ Cart & Order Service (Port 8003)
 
-Responsibilities
-• Cart management
-• Order creation
-• Order history
+\*\* Responsibilities \*\*
 
-APIs
+- Cart management
+- Order creation
+- Order history
+
+\*\* APIs \*\*
 • POST /cart/add
 • DELETE /cart/remove/{cart_id}
 • PUT /cart/increase/{cart_id}
@@ -107,119 +122,152 @@ APIs
 • POST /order/create
 • GET /orders/{user_id}
 
-Features
-• Quantity merge logic
-• Increment / decrement cart items
-• Automatic cart clearing after order
-• Calls Delivery Service after order creation
+\*\* Features \*\*
 
-4️⃣ Delivery & Order Status Service (Port 8004)
+- Quantity merge logic
+- Increment / decrement cart items
+- Automatic cart clearing after order
+- Calls Delivery Service after order creation
 
-Responsibilities
-• Simulate delivery lifecycle.
+### 4️⃣ Delivery & Order Status Service (Port 8004)
 
-Order Status Flow
+\*\* Responsibilities \*\*
+
+- Simulate delivery lifecycle
+- Track order status
+
+\*\* Order Status Flow \*\*
 
 PLACED → PACKED → OUT_FOR_DELIVERY → DELIVERED
 
-APIs
+\*\* APIs \*\*
 • GET /order/{order_id}/status
 • POST /order/{order_id}/update-status
 
 Order status is automatically initialized when an order is created.
 
-📱 Flutter Application
+---
 
-Implemented Screens
-• ✅ Login Screen
-• ✅ Signup Screen
-• ✅ Home Screen (Products)
-• ✅ Cart Screen
-• ✅ Order Confirmation
-• ✅ Order Tracking Screen
+## 📱 Flutter Application
 
-Features
-• API integration with all microservices
-• Cart quantity controls (+ / −)
-• Order placement
-• Live order tracking
-• Error handling
+### Implemented Screens
 
-🐳 Docker Setup
+✅ Login Screen
+✅ Signup Screen
+✅ Home Screen (Products)
+✅ Cart Screen
+✅ Order Confirmation
+✅ Order Tracking Screen
+
+### Features
+
+- API integration with all microservices
+- Cart quantity controls (+ / −)
+- Order placement
+- Live order tracking
+- Error handling
+
+## 🐳 Docker Setup
 
 Each microservice includes:
-• Dockerfile
-• Environment configuration
-• Independent container execution
+
+- Dockerfile
+- Environment configuration
+- Independent container execution
 
 Build example:
-docker build -t cart-order-service ./cart-order-service
 
-☸️ Kubernetes Deployment
+```bash
+docker build -t cart-order-service ./cart-order-service
+```
+
+## ☸️ Kubernetes Deployment
 
 All services are deployed using Kubernetes manifests.
 
-Deploy services
+- Deploy services
+
+```bash
 kubectl apply -f k8s/
+```
 
-Check pods
+- Check pods
+
+```bash
 kubectl get pods
+```
 
-Port forwarding (example)
+- Port forwarding (example)
+
+```bash
 kubectl port-forward service/cart-order-service 8003:8000
+```
 
-▶️ Running the Application
+---
 
-1. Start Kubernetes cluster
+## ▶️ Running the Application
 
+-   1. Start Kubernetes cluster
+
+```bash
 (minikube / docker-desktop Kubernetes)
+```
 
-2. Deploy services
-   kubectl apply -f k8s/
+-   2. Deploy services
 
-3. Port forward services
+```bash
+kubectl apply -f k8s/
+```
 
-Service Local Port
-User 8001
-Product 8002
-Cart 8003
-Delivery 8004
+-   3. Port forward services
 
-4. Run Flutter App
-   cd quick_commerce_app
-   flutter pub get
-   flutter run
+| Service | | Port |
+| :--- | |:--- |  
+|User | |8001 |
+|Product | |8002 |
+|Cart | |8003 |
+|Delivery | |8004 |
 
-📦 Database Design
+-   4. Run Flutter App
 
-Each service uses isolated collections:
+```bash
+cd quick_commerce_app
+flutter pub get
+flutter run
+```
 
-Service Database Collection
-User user_db users
-Product product_db products
-Cart cart_db cart_items
-Order cart_db orders
-Delivery delivery_db order_status
+## 📦 Database Design
 
-⚙️ Assumptions
+- Each service uses isolated collections:
+
+|Service| |Database| |Collection|
+|User| |user_db| |users|
+|Product| |product_db| |products|
+|Cart| |cart_db| |cart_items|
+|Order| |cart_db| |orders|
+|Delivery| |delivery_db| |order_status|
+
+## ⚙️ Assumptions
+
 • OTP verification uses a hardcoded value (1234)
 • No payment gateway integration
 • Internal microservice communication is trusted
 • Products are pre-seeded
 
-⚠️ Known Limitations
+## ⚠️ Known Limitations
+
 • No API Gateway
 • No distributed logging
 • Delivery status updates are manual
 • Minimal UI styling (focus on functionality)
 
-🎥 Demo
+## 🎥 Demo
 
-    •	User registration & login
-    •	Product browsing
-    •	Cart operations
-    •	Order placement
-    •	Delivery tracking
+• User registration & login
+• Product browsing
+• Cart operations
+• Order placement
+• Delivery tracking
 
 ## Quick Start (Docker Compose)
 
@@ -227,8 +275,8 @@ Run all services locally:
 
 ```bash
 docker compose up --build
-
 ```
 
-👨‍💻 Author
+### 👨‍💻 Author
+
 Fariduddin Khan
